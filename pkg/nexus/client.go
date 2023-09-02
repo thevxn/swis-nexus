@@ -1,60 +1,59 @@
 package nexus
 
 import (
+	"io"
 	"log"
-	//"go.savla.dev/swis/v5/"
 )
 
 type ClientInterface interface {
-	Create(string, interface{}) bool
-	Read(string, interface{}) bool
-	Update(string, interface{}) bool
-	Delete(string, interface{}) bool
+	Create(string, io.Reader) ([]byte, bool)
+	Read(string, io.Reader) ([]byte, bool)
+	Update(string, io.Reader) ([]byte, bool)
+	Delete(string, io.Reader) ([]byte, bool)
 }
 
 type Client struct {
 	BaseURL string
 	Token   string
-	ClientInterface
+	Verbose bool
 }
 
-func (c *Client) Create(route string, payload interface{}) bool {
-	_, err := call("POST", c.BaseURL + route, nil)
+func (c *Client) Create(route string, payload io.Reader) ([]byte, bool) {
+	body, err := c.call("POST", c.BaseURL+route, payload)
 	if err != nil {
 		log.Fatal(err)
-		return false
+		return []byte{}, false
 	}
 
-	return true
+	return body, true
 }
 
-func (c *Client) Read(route string, payload interface{}) bool {
-	_, err := call("GET", c.BaseURL + route, nil)
+func (c *Client) Read(route string, payload io.Reader) ([]byte, bool) {
+	body, err := c.call("GET", c.BaseURL+route, payload)
 	if err != nil {
 		log.Fatal(err)
-		return false
+		return []byte{}, false
 	}
 
-	return true
+	return body, true
 }
 
-func (c *Client) Update(route string, payload interface{}) bool {
-	_, err := call("PUT", c.BaseURL + route, nil)
+func (c *Client) Update(route string, payload io.Reader) ([]byte, bool) {
+	body, err := c.call("PUT", c.BaseURL+route, payload)
 	if err != nil {
 		log.Fatal(err)
-		return false
+		return []byte{}, false
 	}
 
-	return true
+	return body, true
 }
 
-func (c *Client) Delete(route string, payload interface{}) bool {
-	_, err := call("DELETE", c.BaseURL + route, nil)
+func (c *Client) Delete(route string, payload io.Reader) ([]byte, bool) {
+	body, err := c.call("DELETE", c.BaseURL+route, payload)
 	if err != nil {
 		log.Fatal(err)
-		return false
+		return []byte{}, false
 	}
 
-	return true
+	return body, true
 }
-
