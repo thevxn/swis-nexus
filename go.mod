@@ -1,4 +1,4 @@
-module swis-nexus
+module go.savla.dev/swis-nexus
 
 go 1.20
 

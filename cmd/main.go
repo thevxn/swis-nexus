@@ -7,9 +7,7 @@ import (
 	"log"
 
 	"go.savla.dev/swis/v5/pkg/links"
-	//"go.savla.dev/swis-nexus/pkg/nexus"
-
-	"swis-nexus/pkg/nexus"
+	"go.savla.dev/swis-nexus/pkg/nexus"
 )
 
 func main() {

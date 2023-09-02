@@ -1,7 +1,6 @@
 package nexus
 
 import (
-	//"errors"
 	"fmt"
 	"io"
 	"net/http"
