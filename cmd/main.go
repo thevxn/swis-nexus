@@ -33,7 +33,7 @@ func main() {
 	reader := bytes.NewReader(data)
 	reader2 := bytes.NewReader(data)
 
-	// test the CRUD fucntions calls
+	// test the CRUD functions calls
 	body, ok := client.Create("/links/test", reader)
 	if ok {
 		fmt.Println(string(body) + "\n")
