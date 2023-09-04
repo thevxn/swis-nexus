@@ -24,6 +24,7 @@ func main() {
     client := nexus.Client{
         BaseURL: "https://swapi.example.com",
         Token:   "xxx",
+        Verbose: true,
     }
 
     client.Read("/users", nil)
