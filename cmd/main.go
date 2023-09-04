@@ -25,7 +25,7 @@ func main() {
 		URL:         "https://savla.dev",
 	}
 
-	// encode JSON into a byte stream
+	// encode the sample into a byte stream
 	data, err := json.Marshal(payload)
 	if err != nil {
 		log.Fatal(err)

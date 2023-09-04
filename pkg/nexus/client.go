@@ -21,7 +21,9 @@ type Client struct {
 func (c *Client) Create(route string, payload io.Reader) ([]byte, bool) {
 	body, err := c.call("POST", c.BaseURL+route, payload)
 	if err != nil {
-		log.Fatal(err)
+		if c.Verbose {
+			log.Fatal(err)
+		}
 		return []byte{}, false
 	}
 
@@ -31,7 +33,9 @@ func (c *Client) Create(route string, payload io.Reader) ([]byte, bool) {
 func (c *Client) Read(route string, payload io.Reader) ([]byte, bool) {
 	body, err := c.call("GET", c.BaseURL+route, payload)
 	if err != nil {
-		log.Fatal(err)
+		if c.Verbose {
+			log.Fatal(err)
+		}
 		return []byte{}, false
 	}
 
@@ -41,7 +45,9 @@ func (c *Client) Read(route string, payload io.Reader) ([]byte, bool) {
 func (c *Client) Update(route string, payload io.Reader) ([]byte, bool) {
 	body, err := c.call("PUT", c.BaseURL+route, payload)
 	if err != nil {
-		log.Fatal(err)
+		if c.Verbose {
+			log.Fatal(err)
+		}
 		return []byte{}, false
 	}
 
@@ -51,7 +57,9 @@ func (c *Client) Update(route string, payload io.Reader) ([]byte, bool) {
 func (c *Client) Delete(route string, payload io.Reader) ([]byte, bool) {
 	body, err := c.call("DELETE", c.BaseURL+route, payload)
 	if err != nil {
-		log.Fatal(err)
+		if c.Verbose {
+			log.Fatal(err)
+		}
 		return []byte{}, false
 	}
 
