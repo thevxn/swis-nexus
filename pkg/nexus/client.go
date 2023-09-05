@@ -2,14 +2,13 @@ package nexus
 
 import (
 	"io"
-	"log"
 )
 
 type ClientInterface interface {
-	Create(string, io.Reader) ([]byte, bool)
-	Read(string, io.Reader) ([]byte, bool)
-	Update(string, io.Reader) ([]byte, bool)
-	Delete(string, io.Reader) ([]byte, bool)
+	Create(string, io.Reader) ([]byte, error)
+	Read(string, io.Reader) ([]byte, error)
+	Update(string, io.Reader) ([]byte, error)
+	Delete(string, io.Reader) ([]byte, error)
 }
 
 type Client struct {
@@ -18,50 +17,18 @@ type Client struct {
 	Verbose bool
 }
 
-func (c *Client) Create(route string, payload io.Reader) ([]byte, bool) {
-	body, err := c.call("POST", c.BaseURL+route, payload)
-	if err != nil {
-		if c.Verbose {
-			log.Fatal(err)
-		}
-		return []byte{}, false
-	}
-
-	return body, true
+func (c Client) Create(route string, payload io.Reader) ([]byte, error) {
+	return c.call("POST", c.BaseURL+route, payload)
 }
 
-func (c *Client) Read(route string, payload io.Reader) ([]byte, bool) {
-	body, err := c.call("GET", c.BaseURL+route, payload)
-	if err != nil {
-		if c.Verbose {
-			log.Fatal(err)
-		}
-		return []byte{}, false
-	}
-
-	return body, true
+func (c Client) Read(route string, payload io.Reader) ([]byte, error) {
+	return c.call("GET", c.BaseURL+route, payload)
 }
 
-func (c *Client) Update(route string, payload io.Reader) ([]byte, bool) {
-	body, err := c.call("PUT", c.BaseURL+route, payload)
-	if err != nil {
-		if c.Verbose {
-			log.Fatal(err)
-		}
-		return []byte{}, false
-	}
-
-	return body, true
+func (c Client) Update(route string, payload io.Reader) ([]byte, error) {
+	return c.call("PUT", c.BaseURL+route, payload)
 }
 
-func (c *Client) Delete(route string, payload io.Reader) ([]byte, bool) {
-	body, err := c.call("DELETE", c.BaseURL+route, payload)
-	if err != nil {
-		if c.Verbose {
-			log.Fatal(err)
-		}
-		return []byte{}, false
-	}
-
-	return body, true
+func (c Client) Delete(route string, payload io.Reader) ([]byte, error) {
+	return c.call("DELETE", c.BaseURL+route, payload)
 }

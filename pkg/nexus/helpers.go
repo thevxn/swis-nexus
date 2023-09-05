@@ -23,7 +23,9 @@ func (c *Client) call(method string, url string, payload io.Reader) ([]byte, err
 	}
 	defer resp.Body.Close()
 
-	fmt.Println(method + "\t" + url + "\t" + resp.Status)
+	if c.Verbose {
+		fmt.Println(method + "\t" + url + "\t" + resp.Status)
+	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
