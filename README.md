@@ -23,7 +23,7 @@ import (
 )
 
 var (
-    client = *nexus.Client
+    client *nexus.Client
 
     baseURL = "https://swapi.example.com"
     token   = "xxx"
@@ -43,9 +43,15 @@ func main() {
         Data: nil,
     }
 
+    // Prepare a DTO-out object.
+    output := &nexus.Output{}
+
     // Execute the API call.
     if err := client.Get(input, nil); err != nil {
         fmt.Println(err)
     }
+
+    // Print the response code and response message.
+    fmt.Printf("%4d: %s", output.Code, output.Message)
 }
 ```
