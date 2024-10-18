@@ -31,8 +31,11 @@ type Output struct {
 	// Package name.
 	Package string `json:"package"`
 
-	// Data as returned by the API.
-	Data interface{} `json:"item"`
+	// Data as returned by the API (mono).
+	DataOne interface{} `json:"item"`
+
+	// Data as returned by the API (poly).
+	Data interface{} `json:"items"`
 }
 
 // call is a helper function that does the actual HTTP request to the remote REST JSON API instance.
