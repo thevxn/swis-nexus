@@ -1,68 +1,87 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"log"
 
-	nexus "go.savla.dev/swis-nexus/pkg/nexus"
-	links "go.savla.dev/swis/v5/pkg/links"
+	nexus "go.vxn.dev/swis-nexus/pkg/nexus"
+	links "go.vxn.dev/swis/v5/pkg/links"
 )
 
 var (
-	// configure the client's struct parameters
-	client = nexus.Client{
-		BaseURL: "http://swapi.example.com",
-		Token:   "xxx",
-		Verbose: true,
-	}
+	// Declare the client's struct.
+	client *nexus.Client
 
-	// create a sample links.Link
+	// Define the runtime properties.
+	baseURL = "https://swapi.example.com"
+	token   = "xxx"
+	verbose = true
+
+	// Create a sample links.Link data payload.
 	payload = links.Link{
+		ID:          "test_link",
 		Name:        "test_link",
 		Description: "a test link",
-		URL:         "https://savla.dev",
+		URL:         "https://vxn.dev",
+		Active:      true,
 	}
 )
 
-func logError(err error) {
+// A wrapper function to catch the possible error.
+func wrapError(err error) bool {
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+		return false
 	}
 
-	return
+	return true
 }
 
 func main() {
-	// encode the sample into a byte stream
-	data, err := json.Marshal(payload)
-	logError(err)
+	// Fetch new client instance.
+	client = nexus.NewClient(baseURL, token)
 
-	reader := bytes.NewReader(data)
-	reader2 := bytes.NewReader(data)
+	// Enable the verbose mode explicitly.
+	client.Verbose = true
 
-	// test the CRUD functions calls
-	body, err := client.
-		Create("/links/test", reader)
-	logError(err)
-	fmt.Println(string(body) + "\n")
+	// Prepare the API call input.
+	input := &nexus.Input{
+		Path: "/links",
+		Data: payload,
+	}
 
-	body, err = client.
-		Read("/links/test", nil)
-	logError(err)
-	fmt.Println(string(body) + "\n")
+	// Prepare the API call output.
+	output := &nexus.Output{Data: &links.Link{}}
 
-	body, err = client.
-		Update("/links/test", reader2)
-	logError(err)
-	fmt.Println(string(body) + "\n")
+	//
+	// Perform the example call sequence (create and fetch).
+	//
 
-	body, err = client.
-		Delete("/links/test", nil)
-	logError(err)
-	fmt.Println(string(body) + "\n")
+	// Create a new link.
+	if !wrapError(client.Post(input, nil)) {
+		return
+	}
 
+	input.Path = "/links/test_link"
+
+	// Fetch such link's data.
+	if !wrapError(client.Get(input, output)) {
+		return
+	}
+
+	// Delete the link.
+	if !wrapError(client.Delete(input, nil)) {
+		return
+	}
+
+	// Print fetched data from API.
+	link, ok := output.Data.(*links.Link)
+	if !ok {
+		fmt.Println("could not assert the data type to received data")
+		return
+	}
+
+	if output.Code == 200 {
+		fmt.Printf("fetched link's URL: %s\n", link.URL)
+	}
 	return
-
 }

@@ -1,34 +1,65 @@
 package nexus
 
 import (
-	"io"
+	"fmt"
 )
 
 type ClientInterface interface {
-	Create(string, io.Reader) ([]byte, error)
-	Read(string, io.Reader) ([]byte, error)
-	Update(string, io.Reader) ([]byte, error)
-	Delete(string, io.Reader) ([]byte, error)
+	Get(*Input, *Output) error
+	Post(*Input, *Output) error
+	Patch(*Input, *Output) error
+	Put(*Input, *Output) error
+	Delete(*Input, *Output) error
 }
 
+// nexus client structure
 type Client struct {
+	// Base API's URL, hostname.
 	BaseURL string
-	Token   string
+
+	// API authentication token.
+	Token string
+
+	// Verbose mode to print the call details.
 	Verbose bool
 }
 
-func (c Client) Create(route string, payload io.Reader) ([]byte, error) {
-	return c.call("POST", c.BaseURL+route, payload)
+// Compose and return a new Client instance.
+func NewClient(baseURL, token string) *Client {
+	if baseURL == "" {
+		fmt.Println("baseURL string has to be specified")
+		return nil
+	}
+
+	// Return the pointer to Client struct.
+	return &Client{
+		BaseURL: baseURL,
+		Token:   token,
+		Verbose: false,
+	}
 }
 
-func (c Client) Read(route string, payload io.Reader) ([]byte, error) {
-	return c.call("GET", c.BaseURL+route, payload)
+// GET HTTP method.
+func (c *Client) Get(input *Input, output *Output) error {
+	return c.call("GET", input, output)
 }
 
-func (c Client) Update(route string, payload io.Reader) ([]byte, error) {
-	return c.call("PUT", c.BaseURL+route, payload)
+// POST HTTP method metacall.
+func (c *Client) Post(input *Input, output *Output) error {
+	return c.call("POST", input, output)
 }
 
-func (c Client) Delete(route string, payload io.Reader) ([]byte, error) {
-	return c.call("DELETE", c.BaseURL+route, payload)
+// PUT HTTP method metacall.
+func (c *Client) Put(input *Input, output *Output) error {
+	return c.call("PUT", input, output)
+}
+
+// PATCH HTTP method metacall.
+func (c *Client) Patch(input *Input, output *Output) error {
+	return c.call("PATCH", input, output)
+}
+
+// DELETE HTTP method metacall.
+func (c *Client) Delete(input *Input, output *Output) error {
+	return c.call("DELETE", input, output)
 }
