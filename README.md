@@ -47,7 +47,7 @@ func main() {
     output := &nexus.Output{}
 
     // Execute the API call.
-    if err := client.Get(input, nil); err != nil {
+    if err := client.Get(input, output); err != nil {
         fmt.Println(err)
     }
 
