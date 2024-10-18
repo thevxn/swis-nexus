@@ -31,6 +31,9 @@ type Output struct {
 	// Package name.
 	Package string `json:"package"`
 
+	// Fetched item count.
+	Count int `json:"count"`
+
 	// Data as returned by the API (mono).
 	DataOne interface{} `json:"item"`
 
