@@ -5,28 +5,47 @@
 
 A simple client/connector for [swis-api](https://github.com/savla-dev/swis-api) RESTful JSON API. 
 
-An example implementation can be seen in [cmd/main.go](/cmd/main.go) file.
+A complete example implementation can be find in [cmd/swis-nexus/main.go](/cmd/swis-nexus/main.go) file.
 
-### import
+### import a usage
 
 ```shell
-go install go.savla.dev/swis-nexus@latest
+go get go.vxn.dev/swis-nexus/pkg/nexus
 ```
 
 ```go
 package main
 
 import (
-    "go.savla.dev/swis-nexus/pkg/nexus"
+    "fmt"
+
+    "go.vxn.dev/swis-nexus/pkg/nexus"
+)
+
+var (
+    client = *nexus.Client
+
+    baseURL = "https://swapi.example.com"
+    token   = "xxx"
+    verbose = true
 )
 
 func main() {
-    client := nexus.Client{
-        BaseURL: "https://swapi.example.com",
-        Token:   "xxx",
-        Verbose: true,
+    // Fetch a new nexus.Client instance.
+    client = nexus.NewClient(baseURL, token)
+
+    // Enable the verbose mode.
+    client.Verbose = true
+
+    // Compose a DTO-in object.
+    input := &nexus.Input{
+        Path: "/users",
+        Data: nil,
     }
 
-    client.Read("/users", nil)
+    // Execute the API call.
+    if err := client.Get(input, nil); err != nil {
+        fmt.Println(err)
+    }
 }
 ```
