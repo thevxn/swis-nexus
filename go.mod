@@ -4,7 +4,7 @@ go 1.22
 
 toolchain go1.23.2
 
-require go.vxn.dev/swis/v5 v5.17.6
+require go.vxn.dev/swis/v5 v5.17.9
 
 require (
 	github.com/bytedance/sonic v1.12.3 // indirect

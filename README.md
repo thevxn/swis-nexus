@@ -1,9 +1,9 @@
 # swis-nexus
 
-[![Go Reference](https://pkg.go.dev/badge/go.savla.dev/swis-nexus.svg)](https://pkg.go.dev/go.savla.dev/swis-nexus)
-[![Go Report Card](https://goreportcard.com/badge/go.savla.dev/swis-nexus)](https://goreportcard.com/report/go.savla.dev/swis-nexus)
+[![Go Reference](https://pkg.go.dev/badge/go.vxn.dev/swis-nexus.svg)](https://pkg.go.dev/go.vxn.dev/swis-nexus)
+[![Go Report Card](https://goreportcard.com/badge/go.vxn.dev/swis-nexus)](https://goreportcard.com/report/go.vxn.dev/swis-nexus)
 
-A simple client/connector for [swis-api](https://github.com/savla-dev/swis-api) RESTful JSON API. 
+A simple client/connector for [swis-api](https://github.com/thevxn/swis-api) RESTful JSON API. 
 
 A complete example implementation can be find in [cmd/swis-nexus/main.go](/cmd/swis-nexus/main.go) file.
 
